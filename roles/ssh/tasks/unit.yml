@@ -1,0 +1,16 @@
+---
+- name: Create sshd.service.d directory
+  file:
+    path: /etc/systemd/system/sshd.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Copy online.conf to sshd.service.d
+  copy:
+    src: files/online.conf
+    dest: /etc/systemd/system/sshd.service.d/online.conf
+    owner: root
+    group: root
+    mode: 0664

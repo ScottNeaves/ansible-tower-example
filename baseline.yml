@@ -1,0 +1,11 @@
+
+---
+# This playbook sets up the baseline roles we want on all Data Lake servers
+
+- hosts: all
+  gather_facts: true
+  remote_user: 'sa_ansible'
+  become: 'yes'
+  become_user: 'root'
+  roles:
+    - ssh

@@ -1,0 +1,38 @@
+---
+#Make sure people can't remove the SSH server
+- name: install openssh-server
+  yum:
+    name: openssh-server
+    state: latest
+
+- name: Set up the SSHD config
+  template:
+    src: templates/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart sshd
+
+- name: Set up login banner
+  copy:
+    src: files/sshd_login_banner
+    dest: /etc/ssh/sshd_login_banner
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart sshd
+
+- name: Start sshd
+  service:
+    name: sshd
+    state: started
+    enabled: yes
+
+- name: Enforce SSH client settings
+  copy:
+    src: files/ssh_config
+    dest: /etc/ssh/ssh_config
+    owner: root
+    group: root
+    mode: 0644
